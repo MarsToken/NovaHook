@@ -1,4 +1,4 @@
-import Logger from "@github/novahook/src/main/com/wp/aop/utils/Logger"
+import Logger from "novahook/src/main/com/wp/aop/utils/Logger"
 
 export class ModifyParamApiTest {
 

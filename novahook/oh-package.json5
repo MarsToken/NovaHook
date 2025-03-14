@@ -1,5 +1,5 @@
 {
-  "name": "@github/novahook",
+  "name": "novahook",
   "version": "1.0.0",
   "description": "NovaHook是一款轻量级鸿蒙应用层hook框架。",
   "main": "Index.ts",
@@ -10,6 +10,7 @@
   ],
   "author": "MarsToken",
   "license": "Apache-2.0",
+  "repository": "https://github.com/MarsToken/NovaHook",
   "dependencies": {
   }
 }

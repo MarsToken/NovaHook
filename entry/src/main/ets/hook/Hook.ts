@@ -1,6 +1,6 @@
-import NovaHook from '@github/novahook';
+import NovaHook from 'novahook';
 import { NormalApiTest } from "./NormalApiTest";
-import Logger from "@github/novahook/src/main/com/wp/aop/utils/Logger";
+import Logger from "novahook/src/main/com/wp/aop/utils/Logger";
 import { FunctionApiTest } from "./FunctionApiTest";
 import { MultiTargetApiTest } from "./MultiTargetApiTest";
 import { testFile } from "../plugintest/HookFileApi";

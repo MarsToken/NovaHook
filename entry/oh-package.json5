@@ -6,7 +6,7 @@
   "author": "",
   "license": "",
   "dependencies": {
-    "@github/novahook": "file:../novahook",
+    "novahook": "file:../novahook",
     "proxy": "file:../proxy"
   },
   "devDependencies": {},
