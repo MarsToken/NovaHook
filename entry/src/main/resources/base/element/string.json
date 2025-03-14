@@ -1,0 +1,16 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "这是一个很牛掰的Demo"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "这是一个很牛掰的能力"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "HookDemo"
+    }
+  ]
+}
