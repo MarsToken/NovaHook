@@ -9,7 +9,7 @@
     "AOP"
   ],
   "author": "MarsToken",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "repository": "https://github.com/MarsToken/NovaHook",
   "dependencies": {
   }

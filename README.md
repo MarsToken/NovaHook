@@ -1,8 +1,11 @@
 # 1.AOP概述
+
 ## 1.1.AOP概念
+
 <font style="color:rgb(51, 51, 51);">AOP（Aspect-Oriented Programming）是面向切面编程的缩写，是一种通过预编译和运行时动态代理实现程序功能增强的编程范式。它是对OOP（面向对象编程）的重要补充，专门用于解决横切关注点（Cross-Cutting Concerns）问题。</font>
 
 ## 1.2.核心原理
+
 ```mermaid
 classDiagram
   class Aspect {
@@ -49,6 +52,7 @@ classDiagram
   TargetObject "1" --> "1" ProxyObject : 被代理为
 
 ```
+
 <font style="color:rgb(51, 51, 51);">关键概念说明：</font>
 
 1. <font style="color:rgb(51, 51, 51);">‌</font>**<font style="color:rgb(51, 51, 51);">切面（Aspect）</font>**<font style="color:rgb(51, 51, 51);">‌：</font>切面定义了在何时、何地、以何种方式“切入”到业务代码中。每个切面都可以包含多个切点和通知，以决定切面在应用中的行为方式。
@@ -85,13 +89,14 @@ flowchart TD
 注意：执行流程过程中抛异常会反馈给异常通知
 
 # 2.官方<font style="color:rgb(102, 102, 102);">Aspect方案</font>
+
 <font style="color:rgb(102, 102, 102);">HarmonyOS主要通过插桩机制来实现切面编程，</font><font style="color:rgba(0, 0, 0, 0.9);">Aspect类用于封装提供切面能力（Aspect Oriented Programming，简写AOP）的接口，这些接口可以用来对类方法进行前后插桩或者替换实现，</font><font style="color:rgb(102, 102, 102);">包括addBefore、addAfter和replace接口。</font>
 
-| **参数名** | **类型** | **必填** | **说明** |
-| --- | --- | --- | --- |
-| <font style="color:rgba(0, 0, 0, 0.9);">targetClass</font> | <font style="color:rgba(0, 0, 0, 0.9);">Object</font> | <font style="color:rgba(0, 0, 0, 0.9);">是</font> | <font style="color:rgba(0, 0, 0, 0.9);">指定的类对象或命名空间。</font> |
-| <font style="color:rgba(0, 0, 0, 0.9);">methodName</font> | <font style="color:rgba(0, 0, 0, 0.9);">string</font> | <font style="color:rgba(0, 0, 0, 0.9);">是</font> | <font style="color:rgba(0, 0, 0, 0.9);">指定的方法名，不支持read-only方法。</font> |
-| <font style="color:rgba(0, 0, 0, 0.9);">isStatic</font> | <font style="color:rgba(0, 0, 0, 0.9);">boolean</font> | <font style="color:rgba(0, 0, 0, 0.9);">是</font> | <font style="color:rgba(0, 0, 0, 0.9);">指定的原方法是否为静态方法，true表示静态方法，false表示实例方法。</font> |
+| **参数名**                                                   | **类型**                                                | **必填**                                          | **说明**                                                     |
+| ------------------------------------------------------------ | ------------------------------------------------------- | ------------------------------------------------- | ------------------------------------------------------------ |
+| <font style="color:rgba(0, 0, 0, 0.9);">targetClass</font>   | <font style="color:rgba(0, 0, 0, 0.9);">Object</font>   | <font style="color:rgba(0, 0, 0, 0.9);">是</font> | <font style="color:rgba(0, 0, 0, 0.9);">指定的类对象或命名空间。</font> |
+| <font style="color:rgba(0, 0, 0, 0.9);">methodName</font>    | <font style="color:rgba(0, 0, 0, 0.9);">string</font>   | <font style="color:rgba(0, 0, 0, 0.9);">是</font> | <font style="color:rgba(0, 0, 0, 0.9);">指定的方法名，不支持read-only方法。</font> |
+| <font style="color:rgba(0, 0, 0, 0.9);">isStatic</font>      | <font style="color:rgba(0, 0, 0, 0.9);">boolean</font>  | <font style="color:rgba(0, 0, 0, 0.9);">是</font> | <font style="color:rgba(0, 0, 0, 0.9);">指定的原方法是否为静态方法，true表示静态方法，false表示实例方法。</font> |
 | <font style="color:rgba(0, 0, 0, 0.9);">before/after/instead</font> | <font style="color:rgba(0, 0, 0, 0.9);">Function</font> | <font style="color:rgba(0, 0, 0, 0.9);">是</font> | <font style="color:rgba(0, 0, 0, 0.9);">要插入的函数对象。函数有参数，则第一个参数是this对象（若isStatic为true，则为类对象即targetClass；若isStatic为false，则为调用方法的实例对象），其余参数是原方法的参数。函数也可以无参数，无参时不做处理。</font> |
 
 
@@ -106,18 +111,21 @@ flowchart TD
 **<font style="color:#df2a3f;">依靠经验来判断，我们的hook需求绝大部分都不支持</font>**
 
 # 3.NovaHook方案
+
 <font style="color:#000000;">NovaHook是Aspect的增强，真正意义上做到了随心所欲的hook！它</font>**<font style="color:#000000;">支持Aspect的所有能力，同时也解决了Aspect的</font>**<font style="color:#000000;">不支持read-only方法</font>**<font style="color:#000000;">及多target场景等问题，对顶层只开放一个函数，做到了API统一，解决了调用复杂的问题。</font>**
 
 ## **<font style="color:#000000;">3.1.专用名词说明</font>**
+
 **<font style="color:#000000;"></font>**
 
-| 名词 | 解释 |
-| --- | --- |
+| 名词     | 解释                                                   |
+| -------- | ------------------------------------------------------ |
 | 普通hook | 即writable为true的api，可通过调用NovaHook.hook方法实现 |
-| 插件hook | 必须通过hvigor插件hook的api |
+| 插件hook | 必须通过hvigor插件hook的api                            |
 
 
 ## 3.2.核心技术
+
 1. 类/对象的数据属性
 2. 原型模式
 3. Hvigor插件开发
@@ -130,6 +138,7 @@ flowchart TD
 注意，NovaHook与Java的动态代理不同，它是静态织入，在编译期间将切面逻辑织入到目标代码中。
 
 ## 3.3.如何集成
+
 直接clone项目即可，Demo有测试用例。
 
 novahook里存放hook核心能力
@@ -138,10 +147,52 @@ proxy里存放代理类
 
 entry里的hvigorfile.ts里存放自定义插件的源码
 
-待OpenHarmony三方库中心仓库审核通过后可通过ohpn远程集成
+### 3.3.1.普通hook集成
+
+通过ohpm远程集成：
+
+所需要依赖的模块，比如entry的oh-package.json5
+
+```json
+"dependencies": {
+    "novahook":"^1.0.0",
+  }
+```
+
+同步项目即可。
+
+### 3.3.2.插件hook集成
+
+通过ohpm远程集成：
+
+1. 在项目根目录的hvigor的hvigor-config.json5
+
+```json
+"dependencies": {
+    "com.github.novahook": "1.0.2"
+  }
+```
+
+2. 在所需依赖的模块，比如entry的hvigorfile.ts
+
+```typescript
+import { novaHookPlugin} from 'com.github.novahook'
+export default {
+  system: xxx,  /* Built-in plugin of Hvigor. It cannot be modified. */
+  plugins:[novaHookPlugin()]         /* Custom plugin to extend the functionality of Hvigor. */
+}
+```
+
+3. 创建HookPluginConfig.txt(必须这样命名)
+
+编写hook规则，可参考demo的entry目录下的HookPluginConfig.txt
+
+同步项目即可。
 
 ## **<font style="color:rgba(0, 0, 0, 0.9);">3.4.如何使用</font>**
+
 ### 3.4.1.普通hook
+
 novahook实现了普通hook的核心能力
 
 为方便二次开发者开发，此模块对外仅开放一个api，实现hook能力
@@ -209,6 +260,7 @@ exceptionAdvice、beforeAdvice、replaceAdvice、afterAdvice、returnAdvice构�
 我们只需要这些就够了，至于织入被代理对象细节已被框架内部实现，框架使用者无需关心。
 
 ### 3.4.2.插件hook
+
 1. 创建自定义代理类
 
 建议将Proxy类独立成proxylib，proxylib是与hook业务相关的，代理类集中存放的地方，之所以单独抽离，一方面是为了解耦、另一方面被导包引用的地方可以做到包名一致，为代码插装提供了便利！
@@ -236,7 +288,9 @@ hookPluginConfig.txt，它是插件hook前扫包的规则限定
 **<font style="color:rgba(0, 0, 0, 0.9);">下面结合具体场景来说明使用步骤</font>**
 
 # **<font style="color:rgba(0, 0, 0, 0.9);">4.NovaHook典型使用场景举例</font>**
+
 ## **<font style="color:rgba(0, 0, 0, 0.9);">4.1.hook常规api场景</font>**
+
 1. 定义源Target
 
 ```c
@@ -267,6 +321,7 @@ export class NormalApiTest {
 2. hook源Target并调用源Target函数
 
 ### 4.1.1.静态函数
+
 ```arkts
 // Hook.ts
 export function hookStaticMethod() {
@@ -299,6 +354,7 @@ export function hookStaticMethod() {
 ```
 
 ### 4.1.2.非静态函数
+
 ```arkts
 // Hook.ts
 export function hookCommonMethod() {
@@ -331,6 +387,7 @@ export function hookCommonMethod() {
 ```
 
 ## 4.2.**<font style="color:rgba(0, 0, 0, 0.9);">hook高阶函数的执行场景</font>**
+
 ```arkts
 // FunctionApiTest.ts
 // 定义模拟源Target FunctionApiTest.ts
@@ -378,6 +435,7 @@ export function hookHighFunction() {
 ```
 
 ## **<font style="color:rgba(0, 0, 0, 0.9);">4.3.hook多target场景</font>**
+
 ```arkts
 // 定义模拟源Target MultiTargetApiTest.ts
 export class MultiTargetApiTest {
@@ -459,6 +517,7 @@ export function hookMultiTarget() {
 ```
 
 ## **<font style="color:rgba(0, 0, 0, 0.9);">4.4.hook仅修改源Target实际参数场景</font>**
+
 ```arkts
 // ModifyParamApiTest
 export class ModifyParamApiTest {
@@ -488,6 +547,7 @@ export function hookModifyRealParam() {
 ```
 
 ## **<font style="color:rgba(0, 0, 0, 0.9);">4.5.hook函数的writeable为false的的场景</font>**
+
 此hook方式如果采用普通hook方式会抛异常，必须要插件hook
 
 定义源Target
@@ -497,6 +557,7 @@ export function hookModifyRealParam() {
 ```
 
 ### 4.5.1.**<font style="color:rgba(0, 0, 0, 0.9);">普通hook</font>**
+
 ```arkts
 // Hook.ts
 export function hookThrowException() {
@@ -532,6 +593,7 @@ export function hookThrowException() {
 ```
 
 ### **<font style="color:rgba(0, 0, 0, 0.9);">4.5.2.插件hook</font>**
+
 1. 在proxylib里定义ReadOnlyApiTestProxy.ts
 
 ```arkts
@@ -577,6 +639,7 @@ export function hookReadOnlyMethod() {
 ```
 
 ## **<font style="color:rgba(0, 0, 0, 0.9);">4.6.hook 返回值类型为源码级非export修饰的类或命名空间场景</font>**
+
 以 hook fileIo.openSync 为例
 
 1. 在proxylib里定义FileIoProxy.ts
@@ -804,6 +867,7 @@ export function hookReturnValueNotExport() {
 ```
 
 # 5.参考资料
+
 1. 《JavaScript高级程序编程设计》
 2. [AspectPro框架](https://github.com/HuolalaTech/AspectPro)
 3. [鸿蒙官方开发文档](https://developer.huawei.com/consumer/cn/doc/harmonyos-references-V14/js-apis-util-V14#aspect11)
